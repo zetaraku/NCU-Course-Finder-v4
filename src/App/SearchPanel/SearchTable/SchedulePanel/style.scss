@@ -1,0 +1,45 @@
+.SchedulePanel {
+	.ScheduleOption {
+		padding: 5px;
+	}
+
+	.ScheduleTable {
+		th {
+			text-align: center;
+			width: 3em;
+			background-color: orange;
+		}
+		td {
+			text-align: center;
+			width: 3em;
+			padding: 0 !important;
+		}
+		col {
+			&.weekday {
+				background-color: white;
+			}
+			&.weekend {
+				background-color: pink;
+			}
+		}
+		tr {
+			&.noon {
+				background-color: yellow;
+			}
+			&.night {
+				background-color: cyan;
+			}
+		}
+	}
+
+	.custom-control-lg {
+		.custom-control-label {
+			&::before, &::after {
+				top: 0.15rem;
+				left: -1.4rem;
+				width: 1.25rem;
+				height: 1.25rem;
+			}
+		}
+	}
+}

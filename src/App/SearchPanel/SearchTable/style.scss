@@ -1,0 +1,48 @@
+.SearchTable {
+	border: 2px cyan solid;
+
+	td {
+		padding: 10px 20px;
+	}
+
+	@media (max-width: 1200px) {
+		td {
+			padding: 5px 10px;
+		}
+	}
+
+	.title {
+		background-color: #F3F0DF;
+		text-align: center;
+	}
+	.search {
+		background-color: #DDDDDD;
+		text-align: center;
+	}
+	.author {
+		background-color: gold;
+		text-align: center;
+	}
+	.row-name {
+		width: auto;
+		text-align: center;
+		background-color: wheat;
+		white-space: nowrap;
+	}
+	.row-content {
+		width: 100%;
+		text-align: left;
+		background-color: white;
+		padding: 5px 10px;
+	}
+}
+
+.egg {
+	cursor: pointer;
+
+	&:active {
+		path {
+			color: red;
+		}
+	}
+}

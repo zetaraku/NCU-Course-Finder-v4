@@ -1,31 +1,48 @@
 {
-  "name": "ncu-course-finder",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-scripts": "3.1.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+	"name": "ncu-course-finder",
+	"version": "4.0.0",
+	"private": true,
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject",
+		"lint": "eslint . --ext .js,.jsx"
+	},
+	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^1.2.22",
+		"@fortawesome/free-brands-svg-icons": "^5.11.1",
+		"@fortawesome/free-regular-svg-icons": "^5.11.1",
+		"@fortawesome/free-solid-svg-icons": "^5.10.2",
+		"@fortawesome/react-fontawesome": "^0.1.4",
+		"bootstrap": "^4.3.1",
+		"jquery": "^3.4.1",
+		"moment": "^2.24.0",
+		"node-sass": "^4.12.0",
+		"popper.js": "^1.15.0",
+		"react": "^16.9.0",
+		"react-dom": "^16.9.0",
+		"react-ga": "^2.6.0",
+		"react-scripts": "3.1.2",
+		"react-table": "^7.0.0-beta.0"
+	},
+	"devDependencies": {
+		"eslint": "^6.4.0",
+		"eslint-plugin-react": "^7.14.3"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"eslintConfig": {
+		"extends": "react-app"
+	}
 }
