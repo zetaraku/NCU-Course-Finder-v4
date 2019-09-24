@@ -1,94 +1,86 @@
 import $ from 'jquery';
+import React from 'react';
 import 'bootstrap';
-import React, { useState, useEffect } from 'react';
-import {
-	useTable,
-	useFilters,
-	useSortBy,
-	usePagination,
-	useTableState,
-} from 'react-table';
+
 import moment from 'moment';
 import 'moment/locale/zh-tw';
 
 import InfoModal from './InfoModal';
 import SearchPanel from './SearchPanel';
-import ResultPanel from './ResultPanel';
-import * as TableSettings from 'res/TableSettings';
+import ResultPanelWrapper from 'util/ResultPanelWrapper';
 import { remote_data_host } from 'res/_settings';
 
 
-export default function App() {
-	const [courses, setCourse] = useState([]);
-	const [lastUpdate, setLastUpdate] = useState(null);
-	const [departmentTree, setDepartmentTree] = useState(null);
-	const [popupInfo, setPopupInfo] = useState(null);
-	const [announcement, setAnnouncement] = useState(null);
+export default class App extends React.Component {
+	constructor(props) {
+		super(props);
 
-	useEffect(init, [/* This empty array is f**king important */]);
+		this.state = {
+			courses: [],
+			lastUpdate: null,
+			departmentTree: null,
+			popupInfo: null,
+			announcement: null,
+		};
 
-	const tableState = useTableState({
-		pageSize: TableSettings.defaultPageSize,
-	});
+		this.instance = null;
+	}
 
-	// Use the state and functions returned from useTable to build the ReactTable UI
-	const instance = useTable(
-		{
-			columns: TableSettings.columns,
-			data: courses,
-			state: tableState,
+	componentDidMount() {
+		this.init();
+	}
 
-			filterTypes: TableSettings.filterTypes,
-			sortTypes: TableSettings.sortTypes,
-			defaultColumn: TableSettings.defaultColumn,
-			disableSortRemove: true,
-		},
-		useFilters,
-		useSortBy,
-		usePagination,
-	);
+	instanceCallback = (instance) => {
+		// this is used to get the instance from the child component
+		this.instance = instance;
+	};
 
-	const onSearched = React.useCallback((filters) => {
-		instance.setAllFilters(filters);
+	onSearched = (filters) => {
+		if (this.instance !== null) {
+			this.instance.setAllFilters(filters);
+		}
 		$([document.documentElement, document.body]).animate({
 			scrollTop: $('.ResultPanel').offset().top
 		}, 500);
-	}, [instance]);
+	};
 
-	return (
-		<div className="App">
-			{
-				popupInfo !== null &&
-				<InfoModal
-					title="※※免責聲明※※"
-					innerHTML={popupInfo}
-					okMessage="好，我知道了"
+	render() {
+		return (
+			<div className="App">
+				{
+					this.state.popupInfo !== null &&
+					<InfoModal
+						title="※※免責聲明※※"
+						innerHTML={this.state.popupInfo}
+						okMessage="好，我知道了"
+					/>
+				}
+				<SearchPanel
+					title="NCU Course Finder 4.0"
+					announcement={this.state.announcement}
+					departmentTree={this.state.departmentTree}
+					lastUpdate={this.state.lastUpdate}
+					onSearched={this.onSearched}
 				/>
-			}
-			<SearchPanel
-				title="NCU Course Finder 4.0"
-				announcement={announcement}
-				departmentTree={departmentTree}
-				lastUpdate={lastUpdate}
-				onSearched={onSearched}
-			/>
-			<ResultPanel
-				instance={instance}
-			/>
-		</div>
-	);
+				<ResultPanelWrapper
+					courses={this.state.courses}
+					instanceCallback={this.instanceCallback}
+				/>
+			</div>
+		);
+	}
 
-	function init() {
+	init() {
 		fetch(`${remote_data_host}/info/popup_info.html?ts=${moment().valueOf()}`)
 			.then(res => res.text())
 			.then(result => {
-				setPopupInfo(result);
+				this.setState({ popupInfo: result });
 			});
 
 		fetch(`${remote_data_host}/info/announcement.html?ts=${moment().valueOf()}`)
 			.then(res => res.text())
 			.then(result => {
-				setAnnouncement(result);
+				this.setState({ announcement: result });
 			});
 
 		Promise.all([
@@ -113,9 +105,11 @@ export default function App() {
 				course.fullRate = getRate(course.admitCnt, course.limitCnt);
 			});
 
-			setDepartmentTree(department_tree);
-			setCourse(Object.values(courses));
-			setLastUpdate(moment.unix(LAST_UPDATE_TIME));
+			this.setState({
+				departmentTree: department_tree,
+				courses: Object.values(courses),
+				lastUpdate: moment.unix(LAST_UPDATE_TIME),
+			});
 		});
 
 		function getRate(n, d) {
