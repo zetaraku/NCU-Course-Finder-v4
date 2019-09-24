@@ -1,4 +1,6 @@
 # NCU-Course-Finder-v4
+[![Maintainability](https://api.codeclimate.com/v1/badges/6d937670038b7ebec766/maintainability)](https://codeclimate.com/github/zetaraku/NCU-Course-Finder-v4/maintainability)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fzetaraku%2FNCU-Course-Finder-v4.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fzetaraku%2FNCU-Course-Finder-v4?ref=badge_shield)
 
 A rescue from the place where Nobody Care U.
 
@@ -25,3 +27,5 @@ See [NCU-Course-Finder-DataFetcher](https://github.com/zetaraku/NCU-Course-Finde
 ## License
 
 Copyright © 2017 Raku Zeta. Licensed under the MIT license.
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fzetaraku%2FNCU-Course-Finder-v4.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fzetaraku%2FNCU-Course-Finder-v4?ref=badge_large)
