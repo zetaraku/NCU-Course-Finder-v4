@@ -32,7 +32,8 @@ export default class SearchPanel extends React.Component {
 
 	onReset = () => {
 		if (window.confirm('確定要重設表單嗎？')) {
-			this.setState(getDefaultState());
+			// setState is async, use callback!
+			this.setState(getDefaultState(), this.onSearched);
 		}
 	};
 	onSearched = () => {
@@ -246,19 +247,22 @@ export default class SearchPanel extends React.Component {
 										value={this.state.name} onChange={this.onNameChanged}
 									/>
 								</div>
-								<CheckerGroup type="radio"
-									name="nameOpt"
-									options={
-										[
-											['and', 'AND'],
-											['or', 'OR'],
-										].map(e => ({
-											key: e[0], label: e[1],
-											checked: this.state.nameOpt === e[0]
-										}))
-									}
-									onChange={this.onNameOptionChanged}
-								/>
+								<div className="col-auto form-row">
+									<CheckerGroup type="radio"
+										name="nameOpt"
+										options={
+											[
+												['and', 'AND'],
+												['or', 'OR'],
+											].map(e => ({
+												key: e[0], label: e[1],
+												checked: this.state.nameOpt === e[0]
+											}))
+										}
+										inline={true}
+										onChange={this.onNameOptionChanged}
+									/>
+								</div>
 							</div>
 						</td>
 					</tr>
@@ -272,19 +276,22 @@ export default class SearchPanel extends React.Component {
 										value={this.state.teachers} onChange={this.onTeachersChanged}
 									/>
 								</div>
-								<CheckerGroup type="radio"
-									name="teachersOpt"
-									options={
-										[
-											['or', 'OR'],
-											['nor', 'NOR'],
-										].map(e => ({
-											key: e[0], label: e[1],
-											checked: this.state.teachersOpt === e[0]
-										}))
-									}
-									onChange={this.onTeachersOptionChanged}
-								/>
+								<div className="col-auto form-row">
+									<CheckerGroup type="radio"
+										name="teachersOpt"
+										options={
+											[
+												['or', 'OR'],
+												['nor', 'NOR'],
+											].map(e => ({
+												key: e[0], label: e[1],
+												checked: this.state.teachersOpt === e[0]
+											}))
+										}
+										inline={true}
+										onChange={this.onTeachersOptionChanged}
+									/>
+								</div>
 							</div>
 						</td>
 					</tr>
@@ -297,6 +304,7 @@ export default class SearchPanel extends React.Component {
 									options={
 										['0', '1', '2', '3', '4+'].map(e => ({ key: e, label: e, checked: this.state.credits.has(e) }))
 									}
+									inline={true}
 									onChange={this.onCreditsChanged}
 								/>
 							</div>
@@ -316,6 +324,7 @@ export default class SearchPanel extends React.Component {
 											['elective', '選修'],
 										].map(e => e ? { key: e[0], label: e[1], checked: this.state.type === e[0] } : null)
 									}
+									inline={true}
 									onChange={this.onTypeChanged}
 								/>
 							</div>
@@ -336,6 +345,7 @@ export default class SearchPanel extends React.Component {
 											['all', '全部使用'],
 										].map(e => e ? { key: e[0], label: e[1], checked: this.state.passwordCard === e[0] } : null)
 									}
+									inline={true}
 									onChange={this.onPasswordCardChanged}
 								/>
 							</div>
@@ -364,8 +374,8 @@ export default class SearchPanel extends React.Component {
 										['isNotFull', '排除目前已額滿的課程'],
 									].map(e => ({ key: e[0], label: e[1], checked: this.state.extraOptions.has(e[0]) }))
 								}
-								onChange={this.onExtraOptionsChanged}
 								inline={false}
+								onChange={this.onExtraOptionsChanged}
 							/>
 						</td>
 					</tr>

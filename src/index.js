@@ -6,7 +6,7 @@ import App from './App';
 import ReactGA from 'react-ga';
 import { ga_tracking_id } from 'res/_settings';
 import * as serviceWorker from './serviceWorker';
-import './index.css';
+import './style.scss';
 
 // Add Google Analytics
 ReactGA.initialize(ga_tracking_id);

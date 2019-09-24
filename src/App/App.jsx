@@ -80,14 +80,14 @@ export default function App() {
 
 	function init() {
 		fetch(`${remote_data_host}/info/popup_info.html?ts=${moment().valueOf()}`)
-			.then((res) => res.text())
-			.then((result) => {
+			.then(res => res.text())
+			.then(result => {
 				setPopupInfo(result);
 			});
 
 		fetch(`${remote_data_host}/info/announcement.html?ts=${moment().valueOf()}`)
-			.then((res) => res.text())
-			.then((result) => {
+			.then(res => res.text())
+			.then(result => {
 				setAnnouncement(result);
 			});
 

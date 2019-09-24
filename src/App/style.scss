@@ -1,15 +1,17 @@
 @import "bootstrap/scss/bootstrap";
 
 .App {
+	height: 100vh;
+
 	.SearchPanel {
 		width: 40%;
-		height: 100vh;
+		height: 100%;
 		padding: 10px;
 		float: left;
 	}
 	.ResultPanel {
 		width: 60%;
-		height: 100vh;
+		height: 100%;
 		padding: 10px;
 		float: left;
 	}
@@ -18,18 +20,28 @@
 		content: attr(data-text-large);
 	}
 
+	.time-pill {
+		margin: 0 2px;
+	}
+
 	@media (max-width: 1200px) {
 		.SearchPanel {
 			width: 100%;
 			height: auto;
+			padding: 5px;
 		}
 		.ResultPanel {
 			width: 100%;
 			height: auto;
+			padding: 5px;
 		}
 
 		.rwd-span::before {
 			content: attr(data-text-small);
+		}
+
+		.time-pill {
+			margin: 0 1px;
 		}
 	}
 }

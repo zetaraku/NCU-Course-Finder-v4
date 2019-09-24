@@ -9,6 +9,10 @@
 			text-align: center;
 			background-color: skyblue;
 
+			@media (max-width: 1200px) {
+				padding: 5px;
+			}
+
 			svg {
 				vertical-align: -3px;
 			}

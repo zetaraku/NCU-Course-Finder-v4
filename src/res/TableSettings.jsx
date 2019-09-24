@@ -34,18 +34,18 @@ export const filterTypes = {
 		if (mode === '') {
 			return rows;
 		} else if (mode === 'include') {
-			return rows.filter((row) =>
-				row.values[id].split(', ').some((hour) =>
+			return rows.filter(row =>
+				row.values[id].split(', ').some(hour =>
 					set.has(hour)
 				));
 		} else if (mode === 'enclose') {
-			return rows.filter((row) =>
-				row.values[id].split(', ').every((hour) =>
+			return rows.filter(row =>
+				row.values[id].split(', ').every(hour =>
 					set.has(hour)
 				));
 		} else if (mode === 'exclude') {
-			return rows.filter((row) =>
-				!row.values[id].split(', ').some((hour) =>
+			return rows.filter(row =>
+				!row.values[id].split(', ').some(hour =>
 					set.has(hour)
 				));
 		}
@@ -181,9 +181,9 @@ export const columns = [
 		Cell: ({ cell }) => (
 			cell.value !== '' ?
 				cell.value.split(', ').filter(e => e !== '').map(e =>
-					<><span key={e} className="badge badge-pill badge-primary">{e}</span>&nbsp;</>
+					<><span key={e} className="badge badge-pill badge-primary time-pill">{e}</span></>
 				) : (
-					<span className="badge badge-pill badge-secondary">無時間資料</span>
+					<span className="badge badge-pill badge-secondary time-pill">無資料</span>
 				)
 		),
 		disableSorting: true,

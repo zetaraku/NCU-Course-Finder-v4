@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function CheckerGroup({ type, name, options, onChange = () => {}, inline = true }) {
+export default function CheckerGroup({ type, name, options, inline = false, onChange = null }) {
 	return (
 		<>
 			{options.map((e, i) => {
