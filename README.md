@@ -1,7 +1,8 @@
 # NCU-Course-Finder-v4
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/6d937670038b7ebec766/maintainability)](https://codeclimate.com/github/zetaraku/NCU-Course-Finder-v4/maintainability)
+[![Build Status](https://travis-ci.org/zetaraku/NCU-Course-Finder-v4.svg?branch=master)](https://travis-ci.org/zetaraku/NCU-Course-Finder-v4)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fzetaraku%2FNCU-Course-Finder-v4.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fzetaraku%2FNCU-Course-Finder-v4?ref=badge_shield)
+[![Maintainability](https://api.codeclimate.com/v1/badges/6d937670038b7ebec766/maintainability)](https://codeclimate.com/github/zetaraku/NCU-Course-Finder-v4/maintainability)
 
 A rescue from the place where Nobody Care U.
 
