@@ -10,7 +10,6 @@ import SearchPanel from './SearchPanel';
 import ResultPanelWrapper from 'util/ResultPanelWrapper';
 import { remote_data_host } from 'res/_settings';
 
-
 export default class App extends React.Component {
 	constructor(props) {
 		super(props);

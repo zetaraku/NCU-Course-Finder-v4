@@ -56,51 +56,31 @@ export default class SearchPanel extends React.Component {
 		});
 	};
 
+	onTargetValueChanged = (stateName) => (event) => {
+		this.setState({ [stateName]: event.target.value });
+	};
+	onTargetValueSetChanged = (stateName) => (event) => {
+		let newState = new Set(this.state[stateName]);
+		newState[event.target.checked ? 'add' : 'delete'](event.target.value);
+		this.setState({ [stateName]: newState });
+	};
+
 	onCollegeChanged = (event) => {
 		this.setState({ college: event.target.value, department: '' });
 	};
-	onDepartmentChanged = (event) => {
-		this.setState({ department: event.target.value });
-	};
-	onCategoryChanged = (event) => {
-		this.setState({ category: event.target.value });
-	};
-	onNameChanged = (event) => {
-		this.setState({ name: event.target.value });
-	};
-	onNameOptionChanged = (event) => {
-		this.setState({ nameOpt: event.target.value });
-	};
-	onTeachersChanged = (event) => {
-		this.setState({ teachers: event.target.value });
-	};
-	onTeachersOptionChanged = (event) => {
-		this.setState({ teachersOpt: event.target.value });
-	};
-	onCreditsChanged = (event) => {
-		let newCredits = new Set(this.state.credits);
-		if (event.target.checked) {
-			newCredits.add(event.target.value);
-		} else {
-			newCredits.delete(event.target.value);
-		}
-		this.setState({ credits: newCredits });
-	};
-	onTypeChanged = (event) => {
-		this.setState({ type: event.target.value });
-	};
-	onPasswordCardChanged = (event) => {
-		this.setState({ passwordCard: event.target.value });
-	};
-	onPeriodsChanged = (event) => {
-		let newPeriods = new Set(this.state.periods);
-		if (event.target.checked) {
-			newPeriods.add(event.target.value);
-		} else {
-			newPeriods.delete(event.target.value);
-		}
-		this.setState({ periods: newPeriods });
-	};
+	onDepartmentChanged = this.onTargetValueChanged('department');
+	onCategoryChanged = this.onTargetValueChanged('category');
+	onNameChanged = this.onTargetValueChanged('name');
+	onNameOptionChanged = this.onTargetValueChanged('nameOpt');
+	onTeachersChanged = this.onTargetValueChanged('teachers');
+	onTeachersOptionChanged = this.onTargetValueChanged('teachersOpt');
+	onCreditsChanged = this.onTargetValueSetChanged('credits');
+	onTypeChanged = this.onTargetValueChanged('type');
+	onPasswordCardChanged = this.onTargetValueChanged('passwordCard');
+	onPeriodsChanged = this.onTargetValueSetChanged('periods');
+	onPeriodsOptionChanged = this.onTargetValueChanged('periodsOpt');
+	onExtraOptionsChanged = this.onTargetValueSetChanged('extraOptions');
+
 	toggleDay = (day) => {
 		let newPeriods = new Set(this.state.periods);
 		for (let hour of HOUR_IDS) {
@@ -126,18 +106,6 @@ export default class SearchPanel extends React.Component {
 			}
 		}
 		this.setState({ periods: newPeriods });
-	};
-	onPeriodsOptionChanged = (event) => {
-		this.setState({ periodsOpt: event.target.value });
-	};
-	onExtraOptionsChanged = (event) => {
-		let newExtraOptions = new Set(this.state.extraOptions);
-		if (event.target.checked) {
-			newExtraOptions.add(event.target.value);
-		} else {
-			newExtraOptions.delete(event.target.value);
-		}
-		this.setState({ extraOptions: newExtraOptions });
 	};
 
 	render() {
@@ -405,6 +373,4 @@ export default class SearchPanel extends React.Component {
 			</table>
 		);
 	}
-
-
 }
