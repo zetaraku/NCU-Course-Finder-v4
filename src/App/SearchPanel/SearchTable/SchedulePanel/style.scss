@@ -1,13 +1,15 @@
 .SchedulePanel {
 	.ScheduleTable {
+		margin-top: 5px;
+
 		th {
 			text-align: center;
-			width: 3em;
+			width: 2em;
 			background-color: orange;
 		}
 		td {
 			text-align: center;
-			width: 3em;
+			width: 2em;
 			padding: 0 !important;
 		}
 		col {
