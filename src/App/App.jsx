@@ -71,15 +71,29 @@ export default class App extends React.Component {
 
 	init() {
 		fetch(`${remote_data_host}/info/popup_info.html?ts=${moment().valueOf()}`)
-			.then(res => res.text())
+			.then(res => res.ok ? res.text() : Promise.reject(`${res.status} ${res.statusText}`))
 			.then(result => {
 				this.setState({ popupInfo: result });
+			}).catch(error => {
+				this.setState({ popupInfo: `
+					<span style="color: red;">
+						<strong>錯誤：無法取得內容，請聯絡管理員</strong>
+					</span>
+				` });
+				console.error(error);
 			});
 
 		fetch(`${remote_data_host}/info/announcement.html?ts=${moment().valueOf()}`)
-			.then(res => res.text())
+			.then(res => res.ok ? res.text() : Promise.reject(`${res.status} ${res.statusText}`))
 			.then(result => {
 				this.setState({ announcement: result });
+			}).catch(error => {
+				this.setState({ announcement: `
+					<span style="color: red;">
+						<strong>無法取得</strong>
+					</span>
+				` });
+				console.error(error);
 			});
 
 		Promise.all([
@@ -88,6 +102,9 @@ export default class App extends React.Component {
 		]).then(async ([courses_response, department_tree_response]) => {
 			let { courses, LAST_UPDATE_TIME } = await courses_response.json();
 			let { department_tree } = await department_tree_response.json();
+
+			if (!courses_response.ok || !department_tree_response.ok)
+				throw Error('course data or department cannot be fetched.');
 
 			Object.values(courses).forEach(course => {
 				try {
@@ -109,6 +126,13 @@ export default class App extends React.Component {
 				courses: Object.values(courses),
 				lastUpdate: moment.unix(LAST_UPDATE_TIME),
 			});
+		}).catch(error => {
+			this.setState({ announcement: `
+				<span style="color: red;">
+					<strong>無法取得課程資料，請回報管理員</strong>
+				</span>
+			` });
+			console.error(error);
 		});
 
 		function getRate(n, d) {
