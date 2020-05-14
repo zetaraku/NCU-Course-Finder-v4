@@ -23,7 +23,7 @@ export default class InfoModal extends React.Component {
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
-						<div className="modal-body"
+						<div className="modal-body" style={{ whiteSpace: 'pre' }}
 							dangerouslySetInnerHTML={{ __html: this.props.innerHTML }}>
 						</div>
 						<div className="modal-footer">

@@ -17,7 +17,8 @@ export default class App extends React.Component {
 		this.state = {
 			courses: [],
 			lastUpdate: null,
-			departmentTree: null,
+			colleges: null,
+			departments: null,
 			popupInfo: null,
 			announcement: null,
 		};
@@ -56,8 +57,9 @@ export default class App extends React.Component {
 				}
 				<SearchPanel
 					title="NCU Course Finder 4.0"
+					colleges={this.state.colleges}
+					departments={this.state.departments}
 					announcement={this.state.announcement}
-					departmentTree={this.state.departmentTree}
 					lastUpdate={this.state.lastUpdate}
 					onSearched={this.onSearched}
 				/>
@@ -70,7 +72,7 @@ export default class App extends React.Component {
 	}
 
 	init() {
-		fetch(`${remote_data_host}/info/popup_info.html?ts=${moment().valueOf()}`)
+		fetch(`${remote_data_host}/static/popup_info.html?ts=${moment().valueOf()}`)
 			.then(res => res.ok ? res.text() : Promise.reject(`${res.status} ${res.statusText}`))
 			.then(result => {
 				this.setState({ popupInfo: result });
@@ -83,7 +85,7 @@ export default class App extends React.Component {
 				console.error(error);
 			});
 
-		fetch(`${remote_data_host}/info/announcement.html?ts=${moment().valueOf()}`)
+		fetch(`${remote_data_host}/static/announcement.html?ts=${moment().valueOf()}`)
 			.then(res => res.ok ? res.text() : Promise.reject(`${res.status} ${res.statusText}`))
 			.then(result => {
 				this.setState({ announcement: result });
@@ -96,44 +98,39 @@ export default class App extends React.Component {
 				console.error(error);
 			});
 
-		Promise.all([
-			fetch(`${remote_data_host}/dynamic/courses.json?ts=${moment().valueOf()}`),
-			fetch(`${remote_data_host}/dynamic/department_tree.json?ts=${moment().valueOf()}`),
-		]).then(async ([courses_response, department_tree_response]) => {
-			let { courses, LAST_UPDATE_TIME } = await courses_response.json();
-			let { department_tree } = await department_tree_response.json();
+		fetch(`${remote_data_host}/dynamic/all.json?ts=${moment().valueOf()}`)
+			.then(async (response) => {
+				if (!response.ok)
+					throw Error('course data or department cannot be fetched.');
 
-			if (!courses_response.ok || !department_tree_response.ok)
-				throw Error('course data or department cannot be fetched.');
+				let { colleges, departments, courses, LAST_UPDATE_TIME } = await response.json();
 
-			Object.values(courses).forEach(course => {
-				try {
-					course.deptname = department_tree[course.colecode].departments[course.deptcode].name;
-				} catch (e) {
-					course.deptname = 'N/A';
-				}
+				courses.forEach(course => {
+					// insert collegeId
+					course.collegeIds = course.departmentIds
+						.map(d => departments.find(department => department.departmentId === d).collegeId);
 
-				if (course.limitCnt === 0) {
-					course.limitCnt = Infinity;
-				}
-				course.remainCnt = course.limitCnt - course.admitCnt;
-				course.successRate = getRate(course.remainCnt, course.waitCnt);
-				course.fullRate = getRate(course.admitCnt, course.limitCnt);
+					// calculate other counts
+					course.limitCnt = course.limitCnt !== null ? course.limitCnt : Infinity;
+					course.remainCnt = course.limitCnt - course.admitCnt;
+					course.successRate = getRate(course.remainCnt, course.waitCnt + 1);
+					course.fullRate = getRate(course.admitCnt, course.limitCnt);
+				});
+
+				this.setState({
+					colleges,
+					departments,
+					courses,
+					lastUpdate: moment(LAST_UPDATE_TIME),
+				});
+			}).catch(error => {
+				this.setState({ announcement: `
+					<span style="color: red;">
+						<strong>無法取得課程資料，請回報管理員</strong>
+					</span>
+				` });
+				console.error(error);
 			});
-
-			this.setState({
-				departmentTree: department_tree,
-				courses: Object.values(courses),
-				lastUpdate: moment.unix(LAST_UPDATE_TIME),
-			});
-		}).catch(error => {
-			this.setState({ announcement: `
-				<span style="color: red;">
-					<strong>無法取得課程資料，請回報管理員</strong>
-				</span>
-			` });
-			console.error(error);
-		});
 
 		function getRate(n, d) {
 			return Math.floor(1000 * n / d) / 10;

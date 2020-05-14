@@ -9,15 +9,15 @@ const getDefaultState = () => ({
 	college: '',
 	department: '',
 	category: '',
-	name: '',
-	nameOpt: 'and',
+	title: '',
+	titleOpt: 'and',
 	teachers: '',
 	teachersOpt: 'or',
 	credits: new Set(['0', '1', '2', '3', '4+']),
-	type: '',
+	courseType: '',
 	passwordCard: '',
-	periods: new Set(),
-	periodsOpt: '',
+	classTimes: new Set(),
+	classTimesOpt: '',
 	extraOptions: new Set(),
 });
 
@@ -45,12 +45,12 @@ export default class SearchPanel extends React.Component {
 			college: this.state.college || undefined,
 			department: this.state.department || undefined,
 			classNo: this.state.category || undefined,
-			name: { text: this.state.name, mode: this.state.nameOpt },
+			title: { text: this.state.title, mode: this.state.titleOpt },
 			teachers: { text: this.state.teachers, mode: this.state.teachersOpt },
 			credit: this.state.credits,
-			type: this.state.type || undefined,
+			courseType: this.state.courseType || undefined,
 			passwordCard: this.state.passwordCard || undefined,
-			periods: { set: this.state.periods, mode: this.state.periodsOpt },
+			classTimes: { set: this.state.classTimes, mode: this.state.classTimesOpt },
 			remainCnt: { isNotFull: this.state.extraOptions.has('isNotFull') },
 			// extraOptions: this.state.extraOptions,
 		});
@@ -70,42 +70,42 @@ export default class SearchPanel extends React.Component {
 	};
 	onDepartmentChanged = this.onTargetValueChanged('department');
 	onCategoryChanged = this.onTargetValueChanged('category');
-	onNameChanged = this.onTargetValueChanged('name');
-	onNameOptionChanged = this.onTargetValueChanged('nameOpt');
+	onTitleChanged = this.onTargetValueChanged('title');
+	onTitleOptionChanged = this.onTargetValueChanged('titleOpt');
 	onTeachersChanged = this.onTargetValueChanged('teachers');
 	onTeachersOptionChanged = this.onTargetValueChanged('teachersOpt');
 	onCreditsChanged = this.onTargetValueSetChanged('credits');
-	onTypeChanged = this.onTargetValueChanged('type');
+	onCourseTypeChanged = this.onTargetValueChanged('courseType');
 	onPasswordCardChanged = this.onTargetValueChanged('passwordCard');
-	onPeriodsChanged = this.onTargetValueSetChanged('periods');
-	onPeriodsOptionChanged = this.onTargetValueChanged('periodsOpt');
+	onClassTimesChanged = this.onTargetValueSetChanged('classTimes');
+	onClassTimesOptionChanged = this.onTargetValueChanged('classTimesOpt');
 	onExtraOptionsChanged = this.onTargetValueSetChanged('extraOptions');
 
 	toggleDay = (day) => {
-		let newPeriods = new Set(this.state.periods);
+		let newClassTimes = new Set(this.state.classTimes);
 		for (let hour of HOUR_IDS) {
-			let period = `${day}-${hour}`;
+			let classTime = `${day}-${hour}`;
 
-			if (!this.state.periods.has(period)) {
-				newPeriods.add(period);
+			if (!this.state.classTimes.has(classTime)) {
+				newClassTimes.add(classTime);
 			} else {
-				newPeriods.delete(period);
+				newClassTimes.delete(classTime);
 			}
 		}
-		this.setState({ periods: newPeriods });
+		this.setState({ classTimes: newClassTimes });
 	};
 	toggleHour = (hour) => {
-		let newPeriods = new Set(this.state.periods);
+		let newClassTimes = new Set(this.state.classTimes);
 		for (let day of DAY_IDS) {
-			let period = `${day}-${hour}`;
+			let classTime = `${day}-${hour}`;
 
-			if (!this.state.periods.has(period)) {
-				newPeriods.add(period);
+			if (!this.state.classTimes.has(classTime)) {
+				newClassTimes.add(classTime);
 			} else {
-				newPeriods.delete(period);
+				newClassTimes.delete(classTime);
 			}
 		}
-		this.setState({ periods: newPeriods });
+		this.setState({ classTimes: newClassTimes });
 	};
 
 	render() {
@@ -145,7 +145,7 @@ export default class SearchPanel extends React.Component {
 						<td className="row-name">選課相關資訊</td>
 						<td className="row-content">
 							{/* may be dangerous if the source is untrusted */}
-							<div dangerouslySetInnerHTML={{ __html: this.props.announcement || 'N/A' }} />
+							<div style={{ whiteSpace: 'pre' }} dangerouslySetInnerHTML={{ __html: this.props.announcement || 'N/A' }} />
 						</td>
 					</tr>
 					<tr>
@@ -167,9 +167,9 @@ export default class SearchPanel extends React.Component {
 									<select className="custom-select" name="college" id="college" value={this.state.college} onChange={this.onCollegeChanged}>
 										<option value="">【不指定】</option>
 										{
-											this.props.departmentTree ?
-												Object.entries(this.props.departmentTree).map(([k, v]) =>
-													<option key={k} value={k}>{v.name}</option>
+											this.props.colleges ?
+												this.props.colleges.map(({ collegeId, collegeName }) =>
+													<option key={collegeId} value={collegeId}>{collegeName}</option>
 												) : null
 										}
 									</select>
@@ -179,9 +179,12 @@ export default class SearchPanel extends React.Component {
 										<option value="">【不指定】</option>
 										{
 											this.state.college !== '' ?
-												Object.entries(this.props.departmentTree[this.state.college].departments).map(([k, v]) =>
-													<option key={k} value={k}>{v.name}</option>
-												) : null
+												this.props.departments.filter(e => e.collegeId === this.state.college)
+													.map(department =>
+														<option key={department.departmentId} value={department.departmentId}>
+															{department.departmentName}
+														</option>
+													) : null
 										}
 									</select>
 								</div>
@@ -212,23 +215,23 @@ export default class SearchPanel extends React.Component {
 								<div className="col-auto">
 									<input type="text"
 										className="form-control" placeholder="請輸入關鍵字"
-										value={this.state.name} onChange={this.onNameChanged}
+										value={this.state.title} onChange={this.onTitleChanged}
 									/>
 								</div>
 								<div className="col-auto form-row">
 									<CheckerGroup type="radio"
-										name="nameOpt"
+										name="titleOpt"
 										options={
 											[
 												['and', 'AND'],
 												['or', 'OR'],
 											].map(e => ({
 												key: e[0], label: e[1],
-												checked: this.state.nameOpt === e[0]
+												checked: this.state.titleOpt === e[0]
 											}))
 										}
 										inline={true}
-										onChange={this.onNameOptionChanged}
+										onChange={this.onTitleOptionChanged}
 									/>
 								</div>
 							</div>
@@ -283,17 +286,17 @@ export default class SearchPanel extends React.Component {
 						<td className="row-content">
 							<div className="form-row align-items-center">
 								<CheckerGroup type="radio"
-									name="type"
+									name="courseType"
 									options={
 										[
 											['', '不篩選'],
 											null,
-											['required', '必修'],
-											['elective', '選修'],
-										].map(e => e ? { key: e[0], label: e[1], checked: this.state.type === e[0] } : null)
+											['REQUIRED', '必修'],
+											['ELECTIVE', '選修'],
+										].map(e => e ? { key: e[0], label: e[1], checked: this.state.courseType === e[0] } : null)
 									}
 									inline={true}
-									onChange={this.onTypeChanged}
+									onChange={this.onCourseTypeChanged}
 								/>
 							</div>
 						</td>
@@ -308,9 +311,9 @@ export default class SearchPanel extends React.Component {
 										[
 											['', '不篩選', true],
 											null,
-											['none', '不使用'],
-											['optional', '部分使用'],
-											['all', '全部使用'],
+											['NONE', '不使用'],
+											['OPTIONAL', '部分使用'],
+											['ALL', '全部使用'],
 										].map(e => e ? { key: e[0], label: e[1], checked: this.state.passwordCard === e[0] } : null)
 									}
 									inline={true}
@@ -323,10 +326,10 @@ export default class SearchPanel extends React.Component {
 						<td className="row-name">上課時段</td>
 						<td className="row-content">
 							<SchedulePanel
-								periods={this.state.periods}
-								periodsOpt={this.state.periodsOpt}
-								onPeriodsChanged={this.onPeriodsChanged}
-								onPeriodsOptionChanged={this.onPeriodsOptionChanged}
+								periods={this.state.classTimes}
+								periodsOpt={this.state.classTimesOpt}
+								onPeriodsChanged={this.onClassTimesChanged}
+								onPeriodsOptionChanged={this.onClassTimesOptionChanged}
 								toggleDay={this.toggleDay}
 								toggleHour={this.toggleHour}
 							/>
@@ -336,7 +339,7 @@ export default class SearchPanel extends React.Component {
 						<td className="row-name">進階篩選</td>
 						<td className="row-content">
 							<CheckerGroup type="checkbox"
-								name="extra_options"
+								name="extraOptions"
 								options={
 									[
 										['isNotFull', '排除目前已額滿的課程'],

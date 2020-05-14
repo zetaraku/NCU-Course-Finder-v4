@@ -12,6 +12,11 @@ export const defaultColumn = {
 };
 
 export const filterTypes = {
+	includes: (rows, id, filterValue) => {
+		return rows.filter(row =>
+			row.values[id].includes(filterValue)
+		);
+	},
 	prefix: (rows, id, filterValue) => {
 		return rows.filter(row =>
 			row.values[id].startsWith(filterValue)
@@ -95,7 +100,7 @@ export const columns = [
 		accessor: 'classNo',
 		Cell: ({ cell }) => {
 			return (
-				<span title={cell.row.original.deptname}>
+				<span>
 					{cell.value.replace('*', '')}
 				</span>
 			);
@@ -104,7 +109,7 @@ export const columns = [
 	},
 	{
 		Header: '課程名稱',
-		accessor: 'name',
+		accessor: 'title',
 		Cell: ({ cell }) => (
 			<div style={{ position: 'relative' }}>
 				{makeInfoBadge(cell.row.original)}
@@ -134,7 +139,7 @@ export const columns = [
 	},
 	{
 		Header: '選/必',
-		accessor: 'type',
+		accessor: 'courseType',
 		Cell: ({ cell }) => (
 			getTypeTag(cell.row.original)
 		),
@@ -176,8 +181,8 @@ export const columns = [
 	},
 	{
 		Header: '上課時段',
-		id: 'periods',
-		accessor: (original) => original.times.join(', '),
+		id: 'classTimes',
+		accessor: (original) => original.classTimes.join(', '),
 		Cell: ({ cell }) => (
 			cell.value !== '' ?
 				cell.value.split(', ').filter(e => e !== '').map(e =>
@@ -198,15 +203,15 @@ export const columns = [
 	{
 		Header: '學院',
 		id: 'college',
-		accessor: 'colecode',
-		filter: 'equals',
+		accessor: 'collegeIds',
+		filter: 'includes',
 		show: false,
 	},
 	{
 		Header: '系別',
 		id: 'department',
-		accessor: 'deptcode',
-		filter: 'equals',
+		accessor: 'departmentIds',
+		filter: 'includes',
 		show: false,
 	},
 	{
@@ -246,7 +251,7 @@ function makeInfoBadge(course) {
 					<FontAwesomeIcon icon="infinity" />
 				</span>
 			}
-			{course.passwordCard === 'all' &&
+			{course.passwordCard === 'ALL' &&
 				<span role="img" aria-label="需要密碼卡" className="badge" title="需要密碼卡" style={{ backgroundColor: 'yellow', color: 'darkgray' }}>
 					<FontAwesomeIcon icon="lock" />
 				</span>
@@ -260,9 +265,9 @@ function getTypeTag(course) {
 		return <span className="badge badge-primary">核心通識</span>;
 	if (/^GS/.test(course.classNo))
 		return <span className="badge badge-success">一般通識</span>;
-	if (course.type === 'required')
+	if (course.courseType === 'REQUIRED')
 		return <span className="badge badge-primary">必修</span>;
-	if (course.type === 'elective')
+	if (course.courseType === 'ELECTIVE')
 		return <span className="badge badge-success">選修</span>;
 
 	return <span className="badge badge-secondary">無資料</span>;
