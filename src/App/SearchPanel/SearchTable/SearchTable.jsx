@@ -144,8 +144,13 @@ export default class SearchPanel extends React.Component {
 					<tr>
 						<td className="row-name">選課相關資訊</td>
 						<td className="row-content">
-							{/* may be dangerous if the source is untrusted */}
-							<div style={{ whiteSpace: 'pre' }} dangerouslySetInnerHTML={{ __html: this.props.announcement || 'N/A' }} />
+							{ this.props.schedule.status }期間：
+							<a
+								target="_blank" rel="noopener noreferrer"
+								href="http://pdc.adm.ncu.edu.tw/Course/course/COUR_S.pdf"
+							>[課務相關日程表]</a><br />
+							{ this.props.schedule.from.format('Y/MM/DD') } ~ { this.props.schedule.to.format('Y/MM/DD') }<br />
+							{ this.props.schedule.start.format('MM/DD') } 起，每天 7:00 ~ 9:00 分發<br />
 						</td>
 					</tr>
 					<tr>

@@ -20,7 +20,12 @@ export default class App extends React.Component {
 			colleges: null,
 			departments: null,
 			popupInfo: null,
-			announcement: null,
+			schedule: {
+				status: '加退選',
+				from: moment('0000-01-01'),
+				to: moment('0000-01-01'),
+				start: moment('0000-01-01'),
+			},
 		};
 
 		this.instance = null;
@@ -59,7 +64,7 @@ export default class App extends React.Component {
 					title="NCU Course Finder 4.0"
 					colleges={this.state.colleges}
 					departments={this.state.departments}
-					announcement={this.state.announcement}
+					schedule={this.state.schedule}
 					lastUpdate={this.state.lastUpdate}
 					onSearched={this.onSearched}
 				/>
@@ -85,16 +90,19 @@ export default class App extends React.Component {
 				console.error(error);
 			});
 
-		fetch(`${remote_data_host}/static/announcement.html?ts=${moment().valueOf()}`)
-			.then(res => res.ok ? res.text() : Promise.reject(`${res.status} ${res.statusText}`))
+		fetch(`${remote_data_host}/dynamic/schedule.json?ts=${moment().valueOf()}`)
+			.then(res => res.ok ? res.json() : Promise.reject(`${res.status} ${res.statusText}`))
 			.then(result => {
-				this.setState({ announcement: result });
+				let { status, from, to, start } = result;
+				this.setState({
+					schedule: {
+						status,
+						from: moment(from),
+						to: moment(to),
+						start: moment(start),
+					},
+				});
 			}).catch(error => {
-				this.setState({ announcement: `
-					<span style="color: red;">
-						<strong>無法取得</strong>
-					</span>
-				` });
 				console.error(error);
 			});
 
@@ -124,11 +132,6 @@ export default class App extends React.Component {
 					lastUpdate: moment(LAST_UPDATE_TIME),
 				});
 			}).catch(error => {
-				this.setState({ announcement: `
-					<span style="color: red;">
-						<strong>無法取得課程資料，請回報管理員</strong>
-					</span>
-				` });
 				console.error(error);
 			});
 
