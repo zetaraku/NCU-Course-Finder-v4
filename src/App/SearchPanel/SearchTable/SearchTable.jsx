@@ -44,7 +44,10 @@ export default class SearchPanel extends React.Component {
 		this.props.onSearched({
 			college: this.state.college || undefined,
 			department: this.state.department || undefined,
-			classNo: this.state.category || undefined,
+			classNo: {
+				classNo: this.state.category,
+				generalCourseOnly: this.state.extraOptions.has('generalCourseOnly'),
+			},
 			title: { text: this.state.title, mode: this.state.titleOpt },
 			teachers: { text: this.state.teachers, mode: this.state.teachersOpt },
 			credit: this.state.credits,
@@ -160,7 +163,7 @@ export default class SearchPanel extends React.Component {
 								this.props.lastUpdate ? <>
 									{this.props.lastUpdate.format('Y/M/D H:mm')}
 									&nbsp;({this.props.lastUpdate.fromNow()})
-							</> : 'N/A'
+								</> : 'N/A'
 							}
 						</td>
 					</tr>
@@ -348,6 +351,7 @@ export default class SearchPanel extends React.Component {
 								options={
 									[
 										['isNotFull', '排除目前已額滿的課程'],
+										['generalCourseOnly', '只顯示通識課'],
 									].map(e => ({ key: e[0], label: e[1], checked: this.state.extraOptions.has(e[0]) }))
 								}
 								inline={false}

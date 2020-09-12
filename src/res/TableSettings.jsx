@@ -17,10 +17,19 @@ export const filterTypes = {
 			row.values[id].includes(filterValue)
 		);
 	},
-	prefix: (rows, id, filterValue) => {
-		return rows.filter(row =>
-			row.values[id].startsWith(filterValue)
+	customClassNo: (rows, id, filterValue) => {
+		let { classNo, generalCourseOnly } = filterValue;
+
+		let result = rows.filter(row =>
+			row.values[id].startsWith(classNo)
 		);
+		if (generalCourseOnly) {
+			result = result.filter(row =>
+				row.values[id].startsWith('CC') || row.values[id].startsWith('GS')
+			);
+		}
+
+		return result;
 	},
 	customCredit: (rows, id, filterValue) => {
 		return rows.filter(row =>
@@ -105,7 +114,7 @@ export const columns = [
 				</span>
 			);
 		},
-		filter: 'prefix',
+		filter: 'customClassNo',
 	},
 	{
 		Header: '課程名稱',
