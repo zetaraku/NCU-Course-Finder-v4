@@ -22,9 +22,9 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 ## Extra Requirement
 
-The client need a backend server to fetch and update the database periodically.
+~~See [NCU-Course-Finder-DataFetcher](https://github.com/zetaraku/NCU-Course-Finder-DataFetcher).~~
 
-See [NCU-Course-Finder-DataFetcher](https://github.com/zetaraku/NCU-Course-Finder-DataFetcher).
+:warning: Since commit `db5a12a`, this app require new data format provided by [NCU-Course-Finder-DataFetcher-v2](https://github.com/zetaraku/NCU-Course-Finder-DataFetcher-v2).
 
 ## License
 
