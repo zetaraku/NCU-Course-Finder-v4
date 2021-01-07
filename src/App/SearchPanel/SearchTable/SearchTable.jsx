@@ -133,11 +133,10 @@ export default class SearchPanel extends React.Component {
 					</tr>
 					<tr>
 						<td colSpan={2} className="search">
-							<button className="btn btn-light" onClick={this.onReset}>
+							<button className="btn btn-light mx-3 my-2" onClick={this.onReset}>
 								重設所有條件 <FontAwesomeIcon icon='sync-alt' />
 							</button>
-							&nbsp;
-							<button className="btn btn-light" onClick={this.onSearched}>
+							<button className="btn btn-light mx-3 my-2" onClick={this.onSearched}>
 								開始多重篩選 <FontAwesomeIcon icon='search' />
 							</button>
 						</td>

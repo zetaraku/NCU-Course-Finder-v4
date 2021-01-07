@@ -19,7 +19,7 @@ export default function Pagination({ instance }) {
 		<div className="Pagination">
 			<div className="pager-block">
 				<button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-					<span className="rwd-span" data-text-large="第一頁" data-text-small="≪"></span>
+					<span className="rwd-span" data-text-large="第一頁" data-text-small="<<"></span>
 				</button>
 
 				&nbsp;
@@ -50,7 +50,7 @@ export default function Pagination({ instance }) {
 				&nbsp;
 
 				<button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-					<span className="rwd-span" data-text-large="最末頁" data-text-small="≫"></span>
+					<span className="rwd-span" data-text-large="最末頁" data-text-small=">>"></span>
 				</button>
 			</div>
 
