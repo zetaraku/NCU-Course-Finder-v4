@@ -52,7 +52,7 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<div className="App">
-				<a href="https://ncucf-v5.herokuapp.com/" target="_blank" rel="noopener noreferrer">
+				{/* <a href="https://ncucf-v5.herokuapp.com/" target="_blank" rel="noopener noreferrer">
 					<div style={{
 						display: 'flex',
 						justifyContent: 'center',
@@ -62,7 +62,7 @@ export default class App extends React.Component {
 					}}>
 						試用最新版本！－ NCU Course Finder 5.0 (beta)
 					</div>
-				</a>
+				</a> */}
 				{
 					this.state.popupInfo !== null &&
 					<InfoModal
