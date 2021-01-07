@@ -5,6 +5,7 @@ export {
 	faRunning,
 	faSearch,
 	faSyncAlt,
+	faInfoCircle,
 	faLock,
 	faInfinity,
 } from '@fortawesome/free-solid-svg-icons';

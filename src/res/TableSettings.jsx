@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -109,9 +110,14 @@ export const columns = [
 		accessor: 'classNo',
 		Cell: ({ cell }) => {
 			return (
-				<span>
-					{cell.value.replace('*', '')}
-				</span>
+				<>
+					<span className="d-md-none" title={cell.value.replace('*', '')}>
+						<FontAwesomeIcon icon="info-circle" size="lg" />
+					</span>
+					<span className="d-none d-md-inline">
+						{cell.value.replace('*', '')}
+					</span>
+				</>
 			);
 		},
 		filter: 'customClassNo',
