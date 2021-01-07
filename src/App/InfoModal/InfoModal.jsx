@@ -14,13 +14,13 @@ export default class InfoModal extends React.Component {
 
 	render() {
 		return (
-			<div className="InfoModal modal fade" ref={this.nodeRef} tabIndex="-1" role="dialog" aria-hidden="true">
+			<div className="InfoModal modal fade" ref={this.nodeRef} tabIndex="-1" role="dialog">
 				<div className="modal-dialog modal-lg modal-dialog-centered" role="document">
 					<div className="modal-content">
 						<div className="modal-header">
 							<h5 className="modal-title">{this.props.title}</h5>
 							<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
+								<span>&times;</span>
 							</button>
 						</div>
 						<div className="modal-body" style={{ whiteSpace: 'pre' }}
