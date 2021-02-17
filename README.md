@@ -12,10 +12,6 @@ This is a complete rewrite of the old NCU-Course-Finder; old versions are no lon
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and powered by [React](https://reactjs.org/).
 
-## Demo
-
-[DEMO PAGE](https://ncucf.herokuapp.com/)
-
 ## How to Start Development
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
