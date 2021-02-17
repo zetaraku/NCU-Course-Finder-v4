@@ -1,0 +1,8 @@
+{
+  "root": "dist",
+  "canonical_host": "ncucf.zetaraku.dev",
+  "clean_urls": true,
+  "routes": {
+    "/**": "index.html"
+  }
+}
