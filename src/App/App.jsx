@@ -20,12 +20,6 @@ export default class App extends React.Component {
 			colleges: null,
 			departments: null,
 			popupInfo: null,
-			schedule: {
-				status: '加退選',
-				from: moment('0000-01-01'),
-				to: moment('0000-01-01'),
-				start: moment('0000-01-01'),
-			},
 		};
 
 		this.instance = null;
@@ -75,7 +69,6 @@ export default class App extends React.Component {
 					title="NCU Course Finder 4.0"
 					colleges={this.state.colleges}
 					departments={this.state.departments}
-					schedule={this.state.schedule}
 					lastUpdate={this.state.lastUpdate}
 					onSearched={this.onSearched}
 				/>
@@ -98,22 +91,6 @@ export default class App extends React.Component {
 						<strong>錯誤：無法取得內容，請聯絡管理員</strong>
 					</span>
 				` });
-				console.error(error);
-			});
-
-		fetch(`${remote_data_host}/dynamic/schedule.json?ts=${moment().valueOf()}`)
-			.then(res => res.ok ? res.json() : Promise.reject(`${res.status} ${res.statusText}`))
-			.then(result => {
-				let { status, from, to, start } = result;
-				this.setState({
-					schedule: {
-						status,
-						from: moment(from),
-						to: moment(to),
-						start: moment(start),
-					},
-				});
-			}).catch(error => {
 				console.error(error);
 			});
 
