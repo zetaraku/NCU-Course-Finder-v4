@@ -5,7 +5,7 @@ import 'bootstrap';
 import moment from 'moment';
 import 'moment/locale/zh-tw';
 
-import InfoModal from './InfoModal';
+// import InfoModal from './InfoModal';
 import SearchPanel from './SearchPanel';
 import ResultPanelWrapper from 'util/ResultPanelWrapper';
 import { remote_data_host } from 'res/_settings';
@@ -57,14 +57,14 @@ export default class App extends React.Component {
 						試用最新版本！－ NCU Course Finder 5.0 (beta)
 					</div>
 				</a> */}
-				{
+				{/* {
 					this.state.popupInfo !== null &&
 					<InfoModal
 						title="※※免責聲明※※"
 						innerHTML={this.state.popupInfo}
 						okMessage="好，我知道了"
 					/>
-				}
+				} */}
 				<SearchPanel
 					title="NCU Course Finder 4.0"
 					colleges={this.state.colleges}
@@ -81,18 +81,18 @@ export default class App extends React.Component {
 	}
 
 	init() {
-		fetch(`${remote_data_host}/static/popup_info.html?ts=${moment().valueOf()}`)
-			.then(res => res.ok ? res.text() : Promise.reject(`${res.status} ${res.statusText}`))
-			.then(result => {
-				this.setState({ popupInfo: result });
-			}).catch(error => {
-				this.setState({ popupInfo: `
-					<span style="color: red;">
-						<strong>錯誤：無法取得內容，請聯絡管理員</strong>
-					</span>
-				` });
-				console.error(error);
-			});
+		// fetch(`${remote_data_host}/static/popup_info.html?ts=${moment().valueOf()}`)
+		// 	.then(res => res.ok ? res.text() : Promise.reject(`${res.status} ${res.statusText}`))
+		// 	.then(result => {
+		// 		this.setState({ popupInfo: result });
+		// 	}).catch(error => {
+		// 		this.setState({ popupInfo: `
+		// 			<span style="color: red;">
+		// 				<strong>錯誤：無法取得內容，請聯絡管理員</strong>
+		// 			</span>
+		// 		` });
+		// 		console.error(error);
+		// 	});
 
 		fetch(`${remote_data_host}/dynamic/all.json?ts=${moment().valueOf()}`)
 			.then(async (response) => {
