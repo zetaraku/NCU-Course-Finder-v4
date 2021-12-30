@@ -66,7 +66,7 @@ export default class App extends React.Component {
 					/>
 				} */}
 				<SearchPanel
-					title="NCU Course Finder 4.0"
+					title="NCU Course Finder v4"
 					colleges={this.state.colleges}
 					departments={this.state.departments}
 					lastUpdate={this.state.lastUpdate}
