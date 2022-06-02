@@ -6,6 +6,8 @@
 
 A rescue from the place where Nobody Care U.
 
+#### :warning: This version is no longer maintained. Please visit the new version: [NCU-Course-Finder-v6](https://github.com/zetaraku/NCU-Course-Finder-v6).
+
 ## Introduction
 
 This is a complete rewrite of the old NCU-Course-Finder; old versions are no longer maintained.
